@@ -1,0 +1,165 @@
+<html>
+<head>
+<!--Rechentrainer Spiel fuer Kinder, fuer Addition. Die maximale Zahl kann mit der variablem maxvalue eingestellt werden.
+Gerald Schuller, 5-16-2010 -->
+
+ <title> Rechentrainer </title>
+
+ <script  type="text/javascript">
+
+ 
+ function Init_Rechner()
+ {
+
+  document.Rechner.reset();
+  document.Rechner.Resultat.value = 0.0;
+ }
+
+var jran=2;
+function rand()
+{
+
+var im = 259200, ia=7141,
+         ic=54773;
+var Ergebnis;
+      
+jran=(jran*ia+ic)%im;
+Ergebnis=(jran/im);
+return Ergebnis;
+}
+
+var x,y;
+var maxvalue=1000;
+var anzversuche=0;
+var anzrichtig=0;
+
+
+function testen(antw)
+{
+keynum=0;
+anzversuche +=1;
+korrekt=x+y;
+
+switch(document.Rechner.Rechenart.value)
+  {
+   case "+" : korrekt=x+y;break;
+   case "-" : korrekt=x-y;break;
+   case "*" : korrekt=x*y;break;
+   case "/" : korrekt=x/y;break;
+   default: alert("Irgendwas stimmt hier nicht!");break;
+  }
+
+if(antw == korrekt) 
+   {
+   anzrichtig+=1;
+   alert(" Richtig, sehr gut! Richtige Antworten: " + anzrichtig);
+   Aufgabe();
+   }
+   else 
+   {
+   alert("Leider falsch, probiers nochmal, Anzahl Versuche: " + anzversuche);
+   document.Rechner.Resultat.value="";
+   }
+}
+
+function Aufgabe()
+{
+maxvalue=document.Rechner.maxWert.value;
+
+y=Math.round(maxvalue*rand());
+x=Math.round(maxvalue*rand());
+
+
+document.Rechner.x_Wert.value = x + '+' + y + '=?';
+switch(document.Rechner.Rechenart.value)
+  {
+   case "+" : document.Rechner.x_Wert.value = x + '+' + y + '=?';;break;
+   case "-" : document.Rechner.x_Wert.value = x + '-' + y + '=?';;break;
+   case "*" : document.Rechner.x_Wert.value = x + '*' + y + '=?';;break;
+   case "/" : x=Math.round(maxvalue*rand())*y;
+              document.Rechner.x_Wert.value = x + '/' + y + '=?';
+              if( y==0) 
+                 {
+                    y=Math.round(maxvalue*rand())
+                    x=Math.round(maxvalue*rand())*y;
+                    document.Rechner.x_Wert.value = x + '/' + y + '=?';
+                 } 
+              ;break;
+  
+  }
+document.Rechner.Resultat.value="";
+}
+
+
+var keynum=0;
+
+function f_num(n) 
+{
+
+//alert("test");
+
+	if(keynum) 
+        {
+		// this next actually string-concatenates &mdash; a real gotcha
+                //alert("test");
+		document.Rechner.Resultat.value += n;
+	}
+	else 
+        {
+                //alert("test2");
+		document.Rechner.Resultat.value = n;
+		keynum = 1;
+	}
+}
+
+ </script>
+</head>
+
+
+<body bgcolor=#00ffaa onLoad="Aufgabe()">
+
+<form name="Rechner" action="" onsubmit="testen(document.Rechner.Resultat.value);return false;">
+
+Hallo, Vogel Gerald will mit dir Rechnen spielen. Was ist das Ergebnis der Aufgabe? Gib es im unteren Feld ein. Klick auf den Knopf "Ergebnis richtig", wenn du wissen willst ob es richtig ist. Wenn du eine neue Aufgabe willst, klick auf den Knopf "Neue Aufgabe".
+
+<br>
+Maximalwert:
+ &nbsp&nbsp<input type=text name="maxWert" size=12><br>
+<br>
+
+Rechenart (+,-,*,/):
+ &nbsp&nbsp<input type=text name="Rechenart" size=12><br>
+
+<br>
+<input type=button value="Neue Aufgabe:"
+        onclick="Aufgabe()">
+ <br>
+
+<br>
+ &nbsp&nbsp<input type=text name="x_Wert" size=12 readonly><br>
+
+ <br>
+ <i>Was ist das Ergebnis? (Eingabe hier:)&nbsp&nbsp</i>
+<br>
+  <input type=text name="Resultat" size=24 >
+<br>
+
+<input type=submit value="Ergebnis richtig?" >
+    <!--    onclick="testen(document.Rechner.Resultat.value)"> -->
+
+<br>
+<input type=button value=" 0 " onclick="f_num(0)">                   
+<input type=button value=" 1 " onclick="f_num(1)"> 
+<input type=button value=" 2 " onclick="f_num(2)"> 
+<input type=button value=" 3 " onclick="f_num(3)">                   
+<input type=button value=" 4 " onclick="f_num(4)"> 
+<input type=button value=" 5 " onclick="f_num(5)"> 
+<input type=button value=" 6 " onclick="f_num(6)">                   
+<input type=button value=" 7 " onclick="f_num(7)"> 
+<input type=button value=" 8 " onclick="f_num(8)"> 
+<input type=button value=" 9 " onclick="f_num(9)"> 
+
+</form>
+
+</body>
+</html>
